@@ -14,7 +14,7 @@ function web3(state = {}, action) {
 function nftMarket(state = {}, action) {
   switch (action.type) {
     case 'NFTMARKET_LOADED':
-      return { ...state, contract: action.contract }
+      return { ...state, loaded: true, contract: action.contract }
     default:
       return state
   }

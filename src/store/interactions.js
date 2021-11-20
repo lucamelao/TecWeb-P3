@@ -35,7 +35,7 @@ export const loadNFTMarket = async (web3, networkId, dispatch) => {
       dispatch(nftMarketLoaded(nftMarket))
       return nftMarket
     } catch (error) {
-      window.alert('Contract not deployed to the current network. Please select another network with Metamask.')
+      console.log('Contract not deployed to the current network. Please select another network with Metamask.')
       return null
     }
   }
