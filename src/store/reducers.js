@@ -5,7 +5,7 @@ function web3(state = {}, action) {
     case 'WEB3_LOADED':
       return { ...state,  connection: action.connection }
     case 'WEB3_ACCOUNT_LOADED':
-      return { ...state, account: action.account }
+      return { ...state, account: action.account, loaded : true }
     default:
       return state
   }
@@ -14,7 +14,9 @@ function web3(state = {}, action) {
 function nftMarket(state = {}, action) {
   switch (action.type) {
     case 'NFTMARKET_LOADED':
-      return { ...state, contract: action.contract }
+      return { ...state, loaded: true, contract: action.contract }
+    case 'ALL_NFTS_LOADED':
+      return { ...state, allNFTs: { loaded: true, data: action.allNFTs } }
     default:
       return state
   }

@@ -3,6 +3,7 @@ import {
   web3Loaded,
   web3AccountLoaded,
   nftMarketLoaded,
+  allNFTsLoaded
 } from './actions'
 import NFTMarket from '../abis/NFTMarket.json'
 
@@ -30,12 +31,22 @@ export const loadAccount = async (web3, dispatch) => {
 }
 
 export const loadNFTMarket = async (web3, networkId, dispatch) => {
-    try {
-      const nftMarket = new web3.eth.Contract(NFTMarket.abi, NFTMarket.networks[networkId].address)
-      dispatch(nftMarketLoaded(nftMarket))
-      return nftMarket
-    } catch (error) {
-      window.alert('Contract not deployed to the current network. Please select another network with Metamask.')
-      return null
-    }
+  try {
+    const nftMarket = new web3.eth.Contract(NFTMarket.abi, NFTMarket.networks[networkId].address)
+    dispatch(nftMarketLoaded(nftMarket))
+    return nftMarket
+  } catch (error) {
+    console.log('Contract not deployed to the current network. Please select another network with Metamask.')
+    return null
   }
+}
+
+export const loadAllNFTs = async (nftMarket, dispatch) => {
+  // Load order stream
+  const nftsCreated = await nftMarket.getPastEvents('NFTCreated', { fromBlock: 0,  toBlock: 'latest' })
+  // Format order stream
+  const allNFTs = nftsCreated.map((event) => event.returnValues)
+  // Add open orders to the redux store
+  dispatch(allNFTsLoaded(allNFTs))
+}
+

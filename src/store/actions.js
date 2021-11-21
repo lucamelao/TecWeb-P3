@@ -20,4 +20,11 @@ export function nftMarketLoaded(contract) {
     contract
   }
 }
+
+export function allNFTsLoaded(allNFTs) {
+  return {
+    type: 'ALL_NFTS_LOADED',
+    allNFTs
+  }
+}
   
