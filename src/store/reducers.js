@@ -15,6 +15,8 @@ function nftMarket(state = {}, action) {
   switch (action.type) {
     case 'NFTMARKET_LOADED':
       return { ...state, loaded: true, contract: action.contract }
+    case 'ALL_NFTS_LOADED':
+      return { ...state, allNFTs: { loaded: true, data: action.allNFTs } }
     default:
       return state
   }

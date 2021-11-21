@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import './App.css';
+
 import Navbar from "./components/Navbar"
-import Web3 from 'web3'
+import NFTs from "./components/NFTs"
+
 import { connect } from 'react-redux'
 import {
   loadWeb3,
   loadAccount,
   loadNFTMarket,
 } from './store/interactions'
-import { contractLoadedSelector } from './store/selectors'
+import { nftMarketLoadedSelector } from './store/selectors'
 
 function App(props) {
 
@@ -29,13 +31,14 @@ function App(props) {
   return (
     <div>
       <Navbar />
+      {props.nftMarketLoaded ? <NFTs /> :  <div className="content"></div>}
     </div>
   );
 }
 
 function mapStateToProps(state) {
   return {
-    contractLoaded: contractLoadedSelector(state)
+    nftMarketLoaded: nftMarketLoadedSelector(state)
   }
 }
 

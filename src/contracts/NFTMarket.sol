@@ -19,17 +19,17 @@ contract NFTMarket is ERC721URIStorage {
         return tokenIds.current();    
     }
 
-    function createNFT(address _receiver, string memory _tokenURI)
+    function createNFT(string memory _tokenURI)
         public
         returns (uint256)
     {
         tokenIds.increment();
 
         uint256 newItemId = tokenIds.current();
-        _safeMint(_receiver, newItemId);
+        _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, _tokenURI);
 
-        emit NFTCreated(_receiver, tokenIds.current(), _tokenURI);
+        emit NFTCreated(msg.sender, tokenIds.current(), _tokenURI);
 
         return newItemId;
     }
