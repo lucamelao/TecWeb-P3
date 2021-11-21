@@ -4,6 +4,9 @@ import { createSelector } from 'reselect'
 const account = state => get(state, 'web3.account')
 export const accountSelector = createSelector(account, a => a)
 
+const accountLoaded = state => get(state, 'web3.loaded', false)
+export const accountLoadedSelector = createSelector(accountLoaded, a => a)
+
 const nftMarketLoaded = state => get(state, 'nftMarket.loaded', false)
 export const nftMarketLoadedSelector = createSelector(nftMarketLoaded, nftm => nftm)
 
