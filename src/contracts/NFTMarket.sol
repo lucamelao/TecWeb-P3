@@ -8,7 +8,7 @@ contract NFTMarket is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
 
-    event NFTCreated(address indexed _to, uint256 indexed _tokenId, string indexed _tokenURI);
+    event NFTCreated(address indexed _to, uint256 indexed _tokenId, string _tokenURI);
 
     constructor() ERC721("Art minter", "ART") {}
 
