@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 
-import Navbar from "./components/Navbar"
+import Navbar from "./components/ChakraNavbar"
 import NFTs from "./components/NFTs"
 
 import { connect } from 'react-redux'
