@@ -1,6 +1,9 @@
 import { get } from 'lodash'
 import { createSelector } from 'reselect'
 
+const web3Connection = state => get(state, 'web3.account')
+export const web3ConnectionSelector = createSelector(web3Connection, web3 => web3)
+
 const account = state => get(state, 'web3.account')
 export const accountSelector = createSelector(account, a => a)
 

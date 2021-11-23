@@ -80,7 +80,7 @@ export default function AccountModal({ account, isOpen, onClose }) {
                   color: "whiteAlpha.800",
                 }}
               >
-                <CopyIcon mr={1} />
+              <CopyIcon mr={1} />
                 Copy Address
               </Button>
               <Link

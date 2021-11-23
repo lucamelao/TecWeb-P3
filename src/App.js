@@ -31,7 +31,7 @@ function App(props) {
   return (
     <div>
       <Navbar />
-      {props.nftMarketLoaded ? <NFTs /> :  <div className="content"></div>}
+      {props.nftMarketLoaded ? <NFTs /> :  <div></div>}
     </div>
   );
 }

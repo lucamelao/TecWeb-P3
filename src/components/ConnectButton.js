@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { Button, Box, Text } from "@chakra-ui/react";
 import { connect } from 'react-redux'
-import { accountLoadedSelector } from '../store/selectors'
-import web3 from 'web3'
+import { accountLoadedSelector, web3ConnectionSelector } from '../store/selectors'
 
-function ConnectButton({ handleOpenModal, account, accountLoaded}) {
+function ConnectButton({ handleOpenModal, account, accountLoaded, web3}) {
 
     const etherBalance = 0
 
@@ -50,7 +49,8 @@ function ConnectButton({ handleOpenModal, account, accountLoaded}) {
 
 function mapStateToProps(state) {
     return {
-      accountLoaded: accountLoadedSelector(state)
+	  accountLoaded: accountLoadedSelector(state),
+	  web3: web3ConnectionSelector(state)
     }
   }
     

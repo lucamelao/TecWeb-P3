@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Flex,
   Circle,
@@ -14,19 +15,40 @@ import {
 
 export default function Tokencard({nft}) {
 
+  const getURl = (str) => {
+    var n = str.lastIndexOf('/');
+    var result = str.substring(n + 1);
+    return result
+  }
+
+  const [name, setName] = useState("")
+  const [img, setImg] = useState("")
+
+  useEffect(()=> {
+    const url = getURl(nft._metadata)
+    axios.get(`https://gateway.pinata.cloud/ipfs/${url}`)
+    .then(res => {
+      setName(res.data.name)
+      setImg(getURl(res.data.image))
+    }
+    )
+  }, [])
+
   return (
     <Box maxW="200px" borderWidth="1px" borderRadius="lg" overflow="hidden">
       <Image 
-        src={"https://gateway.pinata.cloud/ipfs/QmTfgGBcGVbZGk38jfT4rZhQAEtu3j7jwQkZE5E6ij39S2"} 
+        src={`https://gateway.pinata.cloud/ipfs/${img}`} 
         alt={"panda"} 
       />
 
-      <Box p="6">
-        <Box display="flex" alignItems="baseline" flexDirection="column">
+      <Box p="3">
+        <Box display="flex" alignItems="baseline" >
           <Badge borderRadius="full" px="2" colorScheme="teal">
             New
           </Badge>
           <Box
+            display="flex"
+            flexWrap="wrap"
             color="gray.500"
             fontWeight="semibold"
             letterSpacing="narrrow"
@@ -34,25 +56,16 @@ export default function Tokencard({nft}) {
             textTransform="uppercase"
             ml="2"
           >
-            owner: {nft._to}
+            owner: {nft._to &&
+                  `${nft._to.slice(0, 6)}...${nft._to.slice(
+                    nft._to.length - 4,
+                    nft._to.length
+                  )}`}
           </Box>
-        </Box>
-
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
-          caracteristicas
         </Box>
 
         <Box>
-          {nft._metadata}
-          <Box as="span" color="gray.600" fontSize="sm">
-            / wk
-          </Box>
+          {name}
         </Box>
       </Box>
     </Box>

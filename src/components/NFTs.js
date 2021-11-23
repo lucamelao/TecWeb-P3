@@ -19,7 +19,7 @@ const NFTs = (props) => {
         {props.nftsLoaded ? 
           (props.allNFTs.map((nft) => (
             <WrapItem>
-              <TokenCard nft={nft} />
+              <TokenCard nft={nft} key={nft._tokenId} />
             </WrapItem>
           )
           )): <div>NFTS</div>}
