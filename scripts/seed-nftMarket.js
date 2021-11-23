@@ -13,14 +13,14 @@ module.exports = async function(callback) {
       console.log('NFT market fetched', nftMarket.address)
 
       const owner = accounts[0]
-      const cid = "QmTfgGBcGVbZGk38jfT4rZhQAEtu3j7jwQkZE5E6ij39S2"
-      await nftMarket.createNFT(cid, { from: owner })
+      const metadata = "ipfs://QmQ65nTguocBUjiPNxRA35SeZHLC4G2Q4nfbfJ2M3yJKJu"
+      await nftMarket.createNFT(metadata, { from: owner })
       console.log("NFT created - panda")
 
       await wait(1)
 
-      const cid2 = "QmbDCmAf5cL3eBaeomXneto2GreLPoGA8DbRsmXTeu6Lsv"
-      await nftMarket.createNFT(cid2, { from: owner })
+      const metadata2 = "ipfs://QmQKHgEkr5GPtEHquEBxD7zaNoAZA5HTTjNCFxSUaqGJv2"
+      await nftMarket.createNFT(metadata2, { from: owner })
       console.log("NFT created - thug panda")
     }
     catch(error) {
