@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { nftMarketSelector, allNFTsLoadedSelector, allNFTsSelector } from '../store/selectors'
 import { loadAllNFTs } from '../store/interactions'
+import TokenCard from "./TokenCard"
+import { Wrap, WrapItem } from "@chakra-ui/react";
 
 const NFTs = (props) => {
 
@@ -13,19 +15,15 @@ const NFTs = (props) => {
   },[])
   
   return (
-      <div>
-          <div>
-              {props.nftsLoaded ? 
-                (props.allNFTs.map((nft) => (
-                    <div>
-                        <div>{nft._to}</div>
-                        <div>{nft._tokenId}</div>
-                        <div>{nft._tokenURI}</div>
-                    </div>
-                )
-                )): <div>NFTS</div>}
-          </div>
-      </div>
+    <Wrap>
+        {props.nftsLoaded ? 
+          (props.allNFTs.map((nft) => (
+            <WrapItem>
+              <TokenCard nft={nft} />
+            </WrapItem>
+          )
+          )): <div>NFTS</div>}
+    </Wrap>
   )
 }
 
