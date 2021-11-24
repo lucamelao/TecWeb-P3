@@ -27,4 +27,9 @@ export function allNFTsLoaded(allNFTs) {
     allNFTs
   }
 }
-  
+
+export function nftCreation() {
+  return {
+    type: 'NFT_CREATED'
+  }
+}

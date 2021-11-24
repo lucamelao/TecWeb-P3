@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { accountSelector } from '../store/selectors'
+import { accountLoadedSelector, accountSelector } from '../store/selectors'
 import ConnectButton from './ConnectButton'
 import AccountModal from "./AccountModal"
 import {
@@ -14,7 +14,8 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-function NavBar({account}) {
+function NavBar({ accountLoaded, account }) {
+
     const { isOpen, onOpen, onClose } = useDisclosure();
   
     return (
@@ -61,8 +62,13 @@ function NavBar({account}) {
                 </Link>
               </HStack>
             </HStack>
-            <ConnectButton handleOpenModal={onOpen} />
-            <AccountModal isOpen={isOpen} onClose={onClose} account={account}/>
+            {accountLoaded ? (
+              <div>
+                <ConnectButton handleOpenModal={onOpen} account={account}/>
+                <AccountModal isOpen={isOpen} onClose={onClose} account={account} />
+              </div>
+            ): <div></div>
+            }
           </Flex>
         </Box>
       </>
@@ -71,6 +77,7 @@ function NavBar({account}) {
 
 function mapStateToProps(state) {
   return {
+    accountLoaded: accountLoadedSelector(state),
     account: accountSelector(state)
   }
 }

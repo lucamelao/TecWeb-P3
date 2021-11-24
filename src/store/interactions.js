@@ -3,7 +3,8 @@ import {
   web3Loaded,
   web3AccountLoaded,
   nftMarketLoaded,
-  allNFTsLoaded
+  allNFTsLoaded,
+  nftCreation
 } from './actions'
 import NFTMarket from '../abis/NFTMarket.json'
 
@@ -48,5 +49,16 @@ export const loadAllNFTs = async (nftMarket, dispatch) => {
   const allNFTs = nftsCreated.map((event) => event.returnValues)
   // Add open orders to the redux store
   dispatch(allNFTsLoaded(allNFTs))
+}
+
+export const createNFT = (dispatch, exchange, metadata, account) => {
+  exchange.methods.createNFT(metadata).send({ from: account })
+  .on('transactionHash', (hash) => {
+     dispatch(nftCreation())
+  })
+  .on('error', (error) => {
+    console.log(error)
+    window.alert('There was an error!')
+  })
 }
 

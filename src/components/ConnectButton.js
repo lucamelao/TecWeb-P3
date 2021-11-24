@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Box, Text } from "@chakra-ui/react";
 import { connect } from 'react-redux'
-import { accountLoadedSelector, web3ConnectionSelector } from '../store/selectors'
+import { web3ConnectionSelector } from '../store/selectors'
 
-function ConnectButton({ handleOpenModal, account, accountLoaded, web3}) {
+function ConnectButton({ handleOpenModal, account, web3}) {
 
-    const etherBalance = 0
+	const [balance, setBalance] = useState(0)
+
+
+	useEffect(() => {
+		web3.eth.getBalance(account, (err, bal) =>{setBalance(web3.utils.fromWei(bal))})
+	}, [])
 
 	return (
 		<Box
@@ -17,7 +22,7 @@ function ConnectButton({ handleOpenModal, account, accountLoaded, web3}) {
 		>
 			<Box px="3">
 				<Text color="white" fontSize="md">
-					{etherBalance && parseFloat(etherBalance).toFixed(3)} ETH
+					{balance && parseFloat(balance).toFixed(3)} ETH
 				</Text>
 			</Box>
 			<Button
@@ -49,7 +54,6 @@ function ConnectButton({ handleOpenModal, account, accountLoaded, web3}) {
 
 function mapStateToProps(state) {
     return {
-	  accountLoaded: accountLoadedSelector(state),
 	  web3: web3ConnectionSelector(state)
     }
   }

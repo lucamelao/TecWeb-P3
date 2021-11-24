@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Flex,
-  Circle,
   Box,
   Image,
   Badge,
-  useColorModeValue,
-  // Icon,
-  Tooltip,
-  Link
 } from '@chakra-ui/react';
 // import { FaInfo } from 'react-icons/fa';
 

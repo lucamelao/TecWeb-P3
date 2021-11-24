@@ -24,7 +24,7 @@ function App(props) {
       return
     }
   }
-  useEffect(()=> {
+  useEffect(() => {
     loadBlockchainData(props.dispatch)
   },[])
 
