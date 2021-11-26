@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import './App.css';
-
 import Navbar from "./components/ChakraNavbar"
 import NFTs from "./components/NFTs"
-
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { connect } from 'react-redux'
 import {
   loadWeb3,
@@ -29,10 +28,13 @@ function App(props) {
   },[])
 
   return (
-    <div>
+    <BrowserRouter>
       <Navbar />
-      {props.nftMarketLoaded ? <NFTs /> :  <div></div>}
-    </div>
+      <Routes>
+        <Route path="/" element={props.nftMarketLoaded ? <NFTs /> :  <div></div>} />
+        <Route path="/mint" element={<div></div>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

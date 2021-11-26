@@ -43,22 +43,48 @@ export const loadNFTMarket = async (web3, networkId, dispatch) => {
 }
 
 export const loadAllNFTs = async (nftMarket, dispatch) => {
-  // Load order stream
   const nftsCreated = await nftMarket.getPastEvents('NFTCreated', { fromBlock: 0,  toBlock: 'latest' })
-  // Format order stream
   const allNFTs = nftsCreated.map((event) => event.returnValues)
-  // Add open orders to the redux store
   dispatch(allNFTsLoaded(allNFTs))
 }
 
-export const createNFT = (dispatch, exchange, metadata, account) => {
-  exchange.methods.createNFT(metadata).send({ from: account })
-  .on('transactionHash', (hash) => {
-     dispatch(nftCreation())
-  })
-  .on('error', (error) => {
-    console.log(error)
+const createToken = (exchange, pinata,metadata,options, account) => {
+  pinata.pinJSONToIPFS(metadata, options).then((result) => {
+    exchange.methods.createNFT(result["IpfsHash"]).send({ from: account })
+    .on('transactionHash', (hash) => {
+      return 'success'
+    })
+    .on('error', (error) => {
+      console.log(error)
+      window.alert('There was an error!')
+      return 'failure'
+    })
+  }).catch((err) => {
+    console.log(err);
     window.alert('There was an error!')
-  })
+  });
+}
+
+
+export const createNFT = (exchange, pinata, details, img, account) => {
+
+  const options = {
+    pinataMetadata: {
+        name: details.name
+      }
+    }
+  pinata.pinFileToIPFS(img, options)
+  .then((result) => {
+    const metadata = {
+      name : details.name,
+      description : details.description,
+      image : `ipfs://${result["IpfsHash"]}`
+    }
+    createToken(exchange, pinata, metadata, options, account)
+  }).catch((err) => {
+    //handle error here
+    console.log(err);
+  });
+  
 }
 
