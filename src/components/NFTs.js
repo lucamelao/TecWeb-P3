@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { nftMarketSelector, allNFTsLoadedSelector, allNFTsSelector } from '../store/selectors'
-import { loadAllNFTs } from '../store/interactions'
+import { allNFTsLoadedSelector, allNFTsSelector } from '../store/selectors'
 import TokenCard from "./TokenCard"
 import { Wrap, WrapItem } from "@chakra-ui/react";
 
 const NFTs = (props) => {
-
-  const loadBlockchainData = async (dispatch) => {
-      await loadAllNFTs(props.nftMarket, dispatch)
-    }
-  useEffect(()=> {
-      loadBlockchainData(props.dispatch)
-  },[])
   
   return (
     <Wrap>
@@ -29,7 +21,6 @@ const NFTs = (props) => {
 
 function mapStateToProps(state) {
   return {
-    nftMarket: nftMarketSelector(state),
     nftsLoaded: allNFTsLoadedSelector(state),
     allNFTs: allNFTsSelector(state)
   }

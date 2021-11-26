@@ -56,9 +56,9 @@ function NavBar({ accountLoaded, account }) {
                     textDecoration: "none",
                     bg: useColorModeValue("gray.200", "gray.700"),
                   }}
-                  href="/mint"
+                  href="/myTokens"
                 >
-                  Mint
+                  Your tokens
                 </Link>
               </HStack>
             </HStack>

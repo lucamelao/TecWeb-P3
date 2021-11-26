@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import './App.css';
 import Navbar from "./components/ChakraNavbar"
 import NFTs from "./components/NFTs"
+import MyNFTs from "./components/MyNFTs"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { connect } from 'react-redux'
 import {
   loadWeb3,
   loadAccount,
   loadNFTMarket,
+  loadAllNFTs,
 } from './store/interactions'
 import { nftMarketLoadedSelector } from './store/selectors'
 
@@ -22,6 +24,7 @@ function App(props) {
       window.alert('Smart contract not detected on the current network. Please select another network with Metamask.')
       return
     }
+    await loadAllNFTs(NFTMarket, dispatch)
   }
   useEffect(() => {
     loadBlockchainData(props.dispatch)
@@ -32,7 +35,7 @@ function App(props) {
       <Navbar />
       <Routes>
         <Route path="/" element={props.nftMarketLoaded ? <NFTs /> :  <div></div>} />
-        <Route path="/mint" element={<div></div>} />
+        <Route path="/myTokens" element={props.nftMarketLoaded ? <MyNFTs /> :  <div></div>} />
       </Routes>
     </BrowserRouter>
   );
