@@ -7,6 +7,9 @@ import {
   nftCreation
 } from './actions'
 import NFTMarket from '../abis/NFTMarket.json'
+import keys from "../pinata"
+const axios = require('axios');
+const FormData = require('form-data');
 
 export const loadWeb3 = async (dispatch) => {
   if(typeof window.ethereum!=='undefined'){
@@ -48,9 +51,21 @@ export const loadAllNFTs = async (nftMarket, dispatch) => {
   dispatch(allNFTsLoaded(allNFTs))
 }
 
-const createToken = (exchange, pinata,metadata,options, account) => {
+
+export const createToken = (nftMarket, pinata,cid, details , account) => {
+  
+  const metadata = {
+    name : details.name,
+    description : details.description,
+    image : `ipfs://${cid}`
+  }
+  const options = {
+    pinataMetadata: {
+        name: metadata.name
+      }
+    }
   pinata.pinJSONToIPFS(metadata, options).then((result) => {
-    exchange.methods.createNFT(result["IpfsHash"]).send({ from: account })
+    nftMarket.methods.createNFT(result["IpfsHash"]).send({ from: account })
     .on('transactionHash', (hash) => {
       return 'success'
     })
@@ -65,26 +80,29 @@ const createToken = (exchange, pinata,metadata,options, account) => {
   });
 }
 
+// export const createNFT = (nftMarket, pinata, details, img, account) => {
 
-export const createNFT = (exchange, pinata, details, img, account) => {
-
-  const options = {
-    pinataMetadata: {
-        name: details.name
-      }
-    }
-  pinata.pinFileToIPFS(img, options)
-  .then((result) => {
-    const metadata = {
-      name : details.name,
-      description : details.description,
-      image : `ipfs://${result["IpfsHash"]}`
-    }
-    createToken(exchange, pinata, metadata, options, account)
-  }).catch((err) => {
-    //handle error here
-    console.log(err);
-  });
+//   const options = {
+//     pinataMetadata: {
+//         name: details.name
+//       }
+//   }
   
-}
+//   console.log("foi 1")
+//   pinata.pinFileToIPFS(img, options)
+//   .then((result) => {
+//     console.log("foi 2")
+//     const metadata = {
+//       name : details.name,
+//       description : details.description,
+//       image : `ipfs://${result["IpfsHash"]}`
+//     }
+//     console.log("foi 3")
+//     createToken(nftMarket, pinata, metadata, options, account)
+//   }).catch((err) => {
+//     //handle error here
+//     console.log(err);
+//   });
+  
+// }
 
