@@ -1,5 +1,4 @@
 import React, { useMemo, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { useDropzone } from "react-dropzone";
 
 const baseStyle = {
@@ -78,7 +77,7 @@ export default function Dropzone(props) {
       props.setFiles(
         acceptedFiles.map(file =>
           Object.assign(file, {
-            preview: URL.createObjectURL(file)
+            preview: URL.createObjectURL(file),
           })
         )
       );
@@ -86,7 +85,7 @@ export default function Dropzone(props) {
     multiple: false
   });
 
-  console.log(props.files)
+  console.log(props.files[0])
 
   const style = useMemo(
     () => ({
@@ -101,7 +100,7 @@ export default function Dropzone(props) {
   const thumbs = props.files.map(file => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
-        <img src={file.preview} style={img} />
+        <img src={file.preview} style={img}  alt="img"/>
       </div>
     </div>
   ));
@@ -119,7 +118,6 @@ export default function Dropzone(props) {
       {file.path} - {file.size} bytes
     </li>
   ));
-
   return (
     <div className="container">
       <div {...getRootProps({ style })}>

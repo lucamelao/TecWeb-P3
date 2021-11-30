@@ -8,12 +8,7 @@ import {
     Input
   } from "@chakra-ui/react";
 
-const ModalForm = () => {
-
-    const [details, setDetails] = useState({
-        name: "",
-        description: "",
-    })
+const ModalForm = ( {details, setDetails} ) => {
     
     return(
     <FormControl id="info">

@@ -31,7 +31,7 @@ export default function Tokencard({nft}) {
   return (
     <Box maxW="200px" borderWidth="1px" borderRadius="lg" overflow="hidden">
       <Image 
-        src={`https://gateway.pinata.cloud/ipfs/${img}`} 
+        src={`https://ipfs.infura.io/ipfs/${img}`} 
         alt={"panda"} 
       />
 
