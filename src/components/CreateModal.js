@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import ModalForm from "./ModalForm"
-import Dropzone from "./Dropzone"
 import File from "./File"
 import {
   Button,
@@ -31,7 +30,6 @@ function CreateModal( { account, nftMarket, nftCreated } ) {
 
     const pinata = pinataSDK(keys.APIKey, keys.APISecret);
 
-    // const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false)
 
     const [cid, setCid] = useState("");
