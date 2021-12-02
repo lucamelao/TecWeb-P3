@@ -8,8 +8,7 @@ import {
     Input
   } from "@chakra-ui/react";
 
-const ModalForm = ( {details, setDetails} ) => {
-    
+const ModalForm = ( {details, setDetails, loading} ) => {
     return(
     <FormControl id="info">
       <FormLabel>Name</FormLabel>

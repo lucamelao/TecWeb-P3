@@ -28,8 +28,9 @@ export function allNFTsLoaded(allNFTs) {
   }
 }
 
-export function nftCreation() {
+export function nftCreation(success) {
   return {
-    type: 'NFT_CREATED'
+    type: 'NFT_CREATED',
+    success
   }
 }

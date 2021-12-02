@@ -33,3 +33,6 @@ export const myNFTsSelector = createSelector(
         return myNFTs
     }
 )
+
+const nftCreated = state => get(state, 'nftMarket.allNFTs.created', false)
+export const nftCreatedSelector = createSelector(nftCreated, nft => nft)

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
 import ModalForm from "./ModalForm"
 import Dropzone from "./Dropzone"
 import File from "./File"
@@ -15,16 +17,22 @@ import {
   ModalFooter
 } from "@chakra-ui/react";
 import { createToken } from "../store/interactions"
-import { accountSelector , nftMarketSelector} from "../store/selectors";
+import { accountSelector , nftMarketSelector, nftCreatedSelector} from "../store/selectors";
+import "./css/modal.css";
 import keys from "../pinata"
 const pinataSDK = require('@pinata/sdk');
 
 
-function CreateModal( { account, nftMarket } ) {
+function CreateModal( { account, nftMarket, nftCreated } ) {
+
+    const dispatch = useDispatch()
+
+    const navigate = useNavigate();
 
     const pinata = pinataSDK(keys.APIKey, keys.APISecret);
 
     // const [files, setFiles] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const [cid, setCid] = useState("");
 
@@ -36,8 +44,14 @@ function CreateModal( { account, nftMarket } ) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const onSubmit = () => {
-      createToken(nftMarket, pinata, cid ,details, account)
+      setLoading(true)
+      createToken(nftMarket, pinata, cid ,details, account, dispatch)
     }
+
+    useEffect(()=> {
+      nftCreated && navigate("/")
+    }, [nftCreated] )
+
     return (
       <>
         <Button onClick={onOpen}> New NFT</Button>
@@ -48,8 +62,16 @@ function CreateModal( { account, nftMarket } ) {
             <ModalCloseButton />
             <ModalBody>
               {/* <Dropzone files={files} setFiles={setFiles} /> */}
-              <File cid={cid} setCid={setCid} />
-              <ModalForm details={details} setDetails={setDetails} />
+              {loading ? (
+                <div class="loadercont">
+                  <div class="loader"></div>
+                </div>
+              ) :
+                (<div>
+                <File cid={cid} setCid={setCid} />
+                <ModalForm details={details} setDetails={setDetails} loading={loading} />
+                </div>)
+              }
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -66,7 +88,8 @@ function CreateModal( { account, nftMarket } ) {
 function mapStateToProps(state) {
   return {
     account: accountSelector(state),
-    nftMarket: nftMarketSelector(state)
+    nftMarket: nftMarketSelector(state),
+    nftCreated: nftCreatedSelector(state)
   }
 }
 

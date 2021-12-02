@@ -17,6 +17,8 @@ function nftMarket(state = {}, action) {
       return { ...state, loaded: true, contract: action.contract }
     case 'ALL_NFTS_LOADED':
       return { ...state, allNFTs: { loaded: true, data: action.allNFTs } }
+    case 'NFT_CREATED':
+      return { ...state, allNFTs: { loaded: true, data: action.allNFTs, created:action.success } }
     default:
       return state
   }
