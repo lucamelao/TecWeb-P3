@@ -7,9 +7,6 @@ import {
   nftCreation
 } from './actions'
 import NFTMarket from '../abis/NFTMarket.json'
-import keys from "../pinata"
-const axios = require('axios');
-const FormData = require('form-data');
 
 export const loadWeb3 = async (dispatch) => {
   if(typeof window.ethereum!=='undefined'){
@@ -52,7 +49,7 @@ export const loadAllNFTs = async (nftMarket, dispatch) => {
 }
 
 
-export const createToken = (nftMarket, pinata,cid, details , account) => {
+export const createToken = (nftMarket, pinata,cid, details , account, dispatch) => {
   
   const metadata = {
     name : details.name,
@@ -67,42 +64,17 @@ export const createToken = (nftMarket, pinata,cid, details , account) => {
   pinata.pinJSONToIPFS(metadata, options).then((result) => {
     nftMarket.methods.createNFT(result["IpfsHash"]).send({ from: account })
     .on('transactionHash', (hash) => {
-      return 'success'
+      window.alert('NFT created')
+      dispatch(nftCreation(true))
     })
     .on('error', (error) => {
       console.log(error)
       window.alert('There was an error!')
-      return 'failure'
+      dispatch(nftCreation(false))
     })
   }).catch((err) => {
     console.log(err);
     window.alert('There was an error!')
   });
 }
-
-// export const createNFT = (nftMarket, pinata, details, img, account) => {
-
-//   const options = {
-//     pinataMetadata: {
-//         name: details.name
-//       }
-//   }
-  
-//   console.log("foi 1")
-//   pinata.pinFileToIPFS(img, options)
-//   .then((result) => {
-//     console.log("foi 2")
-//     const metadata = {
-//       name : details.name,
-//       description : details.description,
-//       image : `ipfs://${result["IpfsHash"]}`
-//     }
-//     console.log("foi 3")
-//     createToken(nftMarket, pinata, metadata, options, account)
-//   }).catch((err) => {
-//     //handle error here
-//     console.log(err);
-//   });
-  
-// }
 
