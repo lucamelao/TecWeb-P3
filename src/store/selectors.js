@@ -1,5 +1,4 @@
 import { get } from 'lodash'
-import { Navbar } from 'react-bootstrap'
 import { createSelector } from 'reselect'
 
 const web3Connection = state => get(state, 'web3.connection')
